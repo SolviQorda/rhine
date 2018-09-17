@@ -14,6 +14,7 @@ See 'FRP.Rhine.Schedule.Trans' for more details.
 
 module Control.Monad.Schedule where
 
+
 -- base
 import Control.Concurrent
 
@@ -54,11 +55,11 @@ instance Monad m => MonadWait diff (ScheduleT diff m) where
 
 -- class (MonadWait diff m) => MonadSchedule diff m | m -> diff where
 
---   TODO The definition and type signature are both a mouthful. Is there a simpler concept?
---   | Runs two values in 'ScheduleT' concurrently
---     and returns the first one that yields a value
---     (defaulting to the first argument),
---     and a continuation for the other value.
+--TODO The definition and type signature are both a mouthful. Is there a simpler concept?
+-- | Runs two values in 'ScheduleT' concurrently
+--   and returns the first one that yields a value
+--   (defaulting to the first argument),
+--   and a continuation for the other value.
 
 race
   :: (Ord diff, Num diff, Monad m)
@@ -90,7 +91,6 @@ race (FreeT ma) (FreeT mb) = FreeT $ do
         else runFreeT $ do
           wait bDiff
           race (wait (aDiff - bDiff) >> aCont) bCont
-
 
 -- | Supply a semantic meaning to 'Wait'.
 --   For every occurrence of @Wait diff@ in the @ScheduleT diff m a@ value,
